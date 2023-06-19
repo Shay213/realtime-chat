@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import React from "react";
 
 const Home = () => {
