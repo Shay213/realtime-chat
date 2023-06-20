@@ -27,7 +27,7 @@ const AddFriendButton = () => {
       try {
         const validatedEmail = addFriendValidator.parse({ email });
         await axios.post("/api/friends/add", {
-          email: validatedEmail,
+          email: validatedEmail.email,
         });
         setShowSuccess(true);
       } catch (error) {
@@ -73,7 +73,9 @@ const AddFriendButton = () => {
         <Button>Add</Button>
       </div>
       {errors.email?.message && (
-        <p className="mt-1 text-sm text-red-600">{errors.email?.message}</p>
+        <p className="mt-1 text-sm text-red-600">
+          {errors.email?.message?.message}
+        </p>
       )}
       {showSuccess && (
         <p className="mt-1 text-sm text-green-600">Friend request sent!</p>
