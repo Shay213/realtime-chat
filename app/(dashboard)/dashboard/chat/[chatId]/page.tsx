@@ -76,7 +76,7 @@ const Chat = async ({ params }: ChatParams) => {
           </div>
         </div>
       </div>
-      <Messages />
+      <Messages initialMessages={initialMessages} sessionId={session.user.id} />
     </div>
   );
 };
