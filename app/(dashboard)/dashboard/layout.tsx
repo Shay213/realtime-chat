@@ -1,22 +1,17 @@
 import FriendRequestsSidebarOption from "@/app/components/FriendRequestsSidebarOption";
 import { Icon, Icons } from "@/app/components/Icons";
+import MobileChatLayout from "@/app/components/MobileChatLayout";
 import SidebarChatList from "@/app/components/SidebarChatList";
 import SignOutButton from "@/app/components/SignOutButton";
 import { getFriendsByUserId } from "@/helpers/getFriendsByUserId";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
+import { SidebarOption } from "@/types/typings";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
-
-interface SidebarOption {
-  id: number;
-  name: string;
-  href: string;
-  Icon: Icon;
-}
 
 const sidebarOptions: SidebarOption[] = [
   {
@@ -45,9 +40,17 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="w-full flex h-screen">
+      <div className="md:hidden">
+        <MobileChatLayout
+          friends={friends}
+          session={session}
+          sidebarOptions={sidebarOptions}
+          unseenRequestCount={unseenRequestCount}
+        />
+      </div>
       <div
         className="
-        flex h-full w-full max-w-xs grow flex-col gap-y-5 
+        hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 
         overflow-y-auto border-r border-gray-200 bg-white px-6
       "
       >
