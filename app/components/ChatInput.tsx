@@ -17,6 +17,7 @@ const ChatInput = ({ chatPartner, chatId }: ChatInput) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendMessage = useCallback(async () => {
+    if (!input) return;
     setIsLoading(true);
 
     try {
