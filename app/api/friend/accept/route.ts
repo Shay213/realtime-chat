@@ -44,12 +44,31 @@ export async function POST(req: Request) {
       );
     }
 
-    // notify added user
-    pusherServer.trigger(toPusherKey(`user:${id}:friends`), "new_friend", {});
+    const [userRaw, friendRaw] = (await Promise.all([
+      fetchRedis("get", `user:${session.user.id}`),
+      fetchRedis("get", `user:${id}`),
+    ])) as [string, string];
 
-    await db.sadd(`user:${session.user.id}:friends`, id);
-    await db.sadd(`user:${id}:friends`, session.user.id);
-    await db.srem(`user:${session.user.id}:incoming_friend_requests`, id);
+    const user = JSON.parse(userRaw) as User;
+    const friend = JSON.parse(friendRaw) as User;
+
+    // notify added user
+
+    await Promise.all([
+      pusherServer.trigger(
+        toPusherKey(`user:${id}:friends`),
+        "new_friend",
+        user
+      ),
+      pusherServer.trigger(
+        toPusherKey(`user:${session.user.id}:friends`),
+        "new_friend",
+        friend
+      ),
+      db.sadd(`user:${session.user.id}:friends`, id),
+      db.sadd(`user:${id}:friends`, session.user.id),
+      db.srem(`user:${session.user.id}:incoming_friend_requests`, id),
+    ]);
 
     return new NextResponse(JSON.stringify({ message: "Friend added" }), {
       status: 200,
