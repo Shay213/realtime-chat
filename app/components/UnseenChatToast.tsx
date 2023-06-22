@@ -37,7 +37,7 @@ const UnseenChatToast = ({
       >
         <div className="flex items-start">
           <div className="flex-shrink-0 pt-0.5">
-            <div className="relative h=10 w-10">
+            <div className="relative h-10 w-10">
               <Image
                 fill
                 referrerPolicy="no-referrer"
