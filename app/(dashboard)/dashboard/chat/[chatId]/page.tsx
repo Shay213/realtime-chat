@@ -82,6 +82,7 @@ const Chat = async ({ params }: ChatParams) => {
         sessionId={session.user.id}
         sessionImg={session.user.image}
         chatPartner={chatPartner}
+        chatId={chatId}
       />
       <ChatInput chatPartner={chatPartner} chatId={chatId} />
     </div>
